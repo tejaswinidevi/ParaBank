@@ -31,9 +31,21 @@ Eclipse is an IDE(Integrated Development Environment) for writing and running ja
 - `brew install git`
 
 ## Executing the Automation Suite
+- Click on the Code button present on the top right corner of the current page
+- Copy the https url  
+- Go to any of the folder/directory inside your file system (Documents is preferred) from terminal
+- Now give the following command
+- `git clone [copied https url]`
+- Now the project is available in your machine
+- Go to Eclipse and give import project -> Existing Maven Projects -> Browse the location of your cloned project and select it
+- Now the project is onto the Eclipse
+- To run the automation suite go to testng.xml present and give Run As -> TestNG Suite
+- The tests will be run as per the sequence of the scenarios present in the paraBanking feature file under src/test/resources
+- You can track the status of the running scenarios from the console
+- After the successful completion of your automation execution go to test-output -> paraBankTest-Report-[currentDateTime].html
+- Here you can see the status of the scenarios and testcases run
+- To check the visual tests go to the urls given in console
 
-- Go to location inside your file system (Documents is preferred) from terminal
-- Now 
 
 
 
