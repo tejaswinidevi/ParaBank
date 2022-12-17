@@ -1,8 +1,6 @@
 Feature: Automate ParaBank Website using cucumber,selenium,testng and java
 
   Scenario Outline: Create Savings account and Verify Account Details page
-    When Open the paraBanking Website
-    Then Clean the DataBase to avoid internal server error
     Then Login to the ParaBank using userName <name> and password <pwd>
     Then Open New Savings Account
     And verify the details of the Savings Account created in Account Details page
@@ -14,8 +12,6 @@ Feature: Automate ParaBank Website using cucumber,selenium,testng and java
       | john | demo |
 
   Scenario Outline: Bill Payment
-    When Open the paraBanking Website
-    Then Clean the DataBase to avoid internal server error
     Then Login to the ParaBank using userName <name> and password <pwd>
     Then Open New Savings Account
     And verify the details of the Savings Account created in Account Details page
@@ -31,8 +27,6 @@ Feature: Automate ParaBank Website using cucumber,selenium,testng and java
       | john | demo | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | 9182746732 | Checking | Checking      |     50 |
 
   Scenario Outline: Bill Pay Form Validations
-    When Open the paraBanking Website
-    Then Clean the DataBase to avoid internal server error
     Then Login to the ParaBank using userName <name> and password <pwd>
     Then Open New Savings Account
     And verify the details of the Savings Account created in Account Details page

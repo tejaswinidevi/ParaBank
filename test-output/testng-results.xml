@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="10" passed="0" failed="10" skipped="0">
+<testng-results ignored="0" total="10" passed="9" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-12-17T02:41:50 IST" name="Suite" finished-at="2022-12-17T02:41:50 IST" duration-ms="341">
+  <suite started-at="2022-12-18T00:48:29 IST" name="Suite" finished-at="2022-12-18T01:01:18 IST" duration-ms="768865">
     <groups>
       <group name="cucumber">
-        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test started-at="2022-12-17T02:41:50 IST" name="Test" finished-at="2022-12-17T02:41:50 IST" duration-ms="341">
+    <test started-at="2022-12-18T00:48:29 IST" name="Test" finished-at="2022-12-18T01:01:18 IST" duration-ms="768865">
       <class name="com.paraBanking.TestRunner.TestRunner">
-        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="setUpClass" finished-at="2022-12-17T02:41:50 IST" duration-ms="198" status="PASS">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:48:29 IST" name="setUpClass" finished-at="2022-12-18T00:48:29 IST" duration-ms="170" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@5860f3d7]]>
+                <![CDATA[org.testng.TestRunner@3b09582d]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="59" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:48:29 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:49:34 IST" duration-ms="64392" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -34,21 +34,10 @@
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:4)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="6" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:49:34 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:51:39 IST" duration-ms="125333" status="FAIL">
           <params>
             <param index="0">
               <value>
@@ -61,21 +50,22 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
+          <exception class="java.lang.AssertionError">
             <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
+              <![CDATA[Amount didn't get credited to Riya]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:17)
+              <![CDATA[java.lang.AssertionError: Amount didn't get credited to Riya
+at org.testng.Assert.fail(Assert.java:110)
+at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.verifyBalanceAndTransactionTable(ParaBankStepDefinitions.java:303)
+at ✽.Verify that balance and transaction table details of Checking account is correct after receiving amount of 50 <from-to> Riya(file:///Users/snimma868/Demo/paraBanking/src/test/resources/paraBanking.feature:23)
 ]]>
             </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
+          </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="4" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:51:39 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:52:51 IST" duration-ms="71406" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -88,21 +78,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="4" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:52:51 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:54:06 IST" duration-ms="74914" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -115,21 +94,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="4" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:54:06 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:55:18 IST" duration-ms="72094" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -142,21 +110,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="4" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:55:18 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:56:29 IST" duration-ms="71830" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -169,21 +126,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="3" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:56:29 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:57:42 IST" duration-ms="72164" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -196,21 +142,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="4" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:57:42 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T00:58:53 IST" duration-ms="71630" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -223,21 +158,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="8" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T00:58:53 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T01:00:06 IST" duration-ms="73128" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -250,21 +174,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-17T02:41:50 IST" duration-ms="3" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T01:00:06 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2022-12-18T01:01:18 IST" duration-ms="71471" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -277,21 +190,10 @@ at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src
               </value>
             </param>
           </params>
-          <exception class="java.lang.NullPointerException">
-            <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "com.paraBanking.stepDefinitions.ParaBankStepDefinitions.driver" is null
-at com.paraBanking.stepDefinitions.ParaBankStepDefinitions.openParaBank(ParaBankStepDefinitions.java:106)
-at ✽.Open the paraBanking Website(file:///Users/snimma868/Demo/paraBanking/src/test/resources/Login.feature:34)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.paraBanking.TestRunner.TestRunner@17f62e33]" started-at="2022-12-17T02:41:50 IST" name="tearDownClass" finished-at="2022-12-17T02:41:50 IST" duration-ms="6" status="PASS">
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.paraBanking.TestRunner.TestRunner@47caedad]" started-at="2022-12-18T01:01:18 IST" name="tearDownClass" finished-at="2022-12-18T01:01:18 IST" duration-ms="6" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->
