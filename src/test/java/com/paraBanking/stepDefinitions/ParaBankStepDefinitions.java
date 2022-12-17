@@ -1,9 +1,7 @@
 package com.paraBanking.stepDefinitions;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.Assert;
 import org.testng.AssertJUnit;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
@@ -23,7 +21,6 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import paraBanking.Constants;
 
 public class ParaBankStepDefinitions {
@@ -93,30 +90,33 @@ public class ParaBankStepDefinitions {
 
 	String billPaymentErrorMessage = "//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[%s]/td[3]/span";
 
-	@When("^Open the paraBanking Website$")
-	public void openParaBank() {
+	@Before
+	public void setup() {
+
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/Drivers/chromedriver");
 		driver = new ChromeDriver();
 		logger = Logger.getLogger("paraBanking");
 		PropertyConfigurator.configure("Log4j.properties");
+
 		driver.get(baseUrl);
 		driver.manage().window().maximize();
 		logger.info("URL is opened");
-	}
 
-	@Then("^Clean the DataBase to avoid internal server error$")
-	public void cleanDB() {
 		driver.findElement(adminPage).click();
 		AssertJUnit.assertEquals("Administration", driver.findElement(adminPageTitle).getText());
+
 		driver.findElement(cleanButton).click();
 		AssertJUnit.assertEquals("Database Cleaned", driver.findElement(statusMsg).getText());
+
 		driver.findElement(initializeButton).click();
 		AssertJUnit.assertEquals("Database Initialized", driver.findElement(statusMsg).getText());
+
 		driver.findElement(jsonDataAccessMode).click();
 		driver.findElement(soapEndPoint).clear();
 		driver.findElement(restEndPoint).clear();
 		driver.findElement(endPoint).clear();
 		driver.findElement(submit).click();
+
 		AssertJUnit.assertEquals("Settings saved successfully.", driver.findElement(statusMsg).getText());
 	}
 
@@ -133,6 +133,7 @@ public class ParaBankStepDefinitions {
 	@Then("^Open New (.*) Account$")
 	public void openAccount(String accountType) throws InterruptedException {
 		driver.findElement(openNewAccount).click();
+
 		AssertJUnit.assertEquals("Open New Account", driver.findElement(openNewAccountMsg).getText());
 
 		if (accountType.equalsIgnoreCase("Checking")) {
@@ -141,14 +142,9 @@ public class ParaBankStepDefinitions {
 			driver.findElement(savingsAccount).click();
 		}
 
-//		Select accountId = new Select(driver.findElement(By.id("fromAccountId")));
-//		accountId.selectByIndex(2);
 		TimeUnit.SECONDS.sleep(5);
 		driver.findElement(openNewAccountButton).click();
 		TimeUnit.SECONDS.sleep(10);
-		AssertJUnit.assertEquals("Account Opened!", driver.findElement(accountOpenedMsg).getText());
-		AssertJUnit.assertEquals("Congratulations, your account is now open.",
-				driver.findElement(accountOpenedSubMsg).getText());
 
 		if (accountType.equalsIgnoreCase("Checking")) {
 			Checking_Account_Number = driver.findElement(newAccountId).getText();
@@ -161,19 +157,18 @@ public class ParaBankStepDefinitions {
 	public void verifyAccountDetailsPage(String accountType) throws InterruptedException {
 		driver.findElement(newAccountId).click();
 		TimeUnit.SECONDS.sleep(10);
+
 		AssertJUnit.assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
 		if (accountType.equalsIgnoreCase("Checking")) {
-			AssertJUnit.assertEquals(Checking_Account_Number, driver.findElement(accountNumber).getText());
-			AssertJUnit.assertEquals("CHECKING", driver.findElement(AccountType).getText());
+			assertEquals(Checking_Account_Number, driver.findElement(accountNumber).getText());
 		} else if (accountType.equalsIgnoreCase("Savings")) {
-			AssertJUnit.assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
-			AssertJUnit.assertEquals("SAVINGS", driver.findElement(AccountType).getText());
+			assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
 		}
-		AssertJUnit.assertEquals("$100.00", driver.findElement(balance).getText());
-		AssertJUnit.assertEquals("$100.00", driver.findElement(availableBalance).getText());
-		AssertJUnit.assertEquals("Funds Transfer Received",
+		assertEquals("$100.00", driver.findElement(balance).getText());
+		assertEquals("$100.00", driver.findElement(availableBalance).getText());
+		assertEquals("Funds Transfer Received",
 				driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
-		AssertJUnit.assertEquals("$100.00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
+		assertEquals("$100.00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
 	}
 
 	@Then("^Transfer an amount of (.*) from (.*) account to the (.*) account for the payeeName (.*) address (.*) city (.*) state (.*) zipCode (.*) phone (.*) account (.*) verifyAccount (.*)$")
@@ -182,7 +177,8 @@ public class ParaBankStepDefinitions {
 			throws InterruptedException {
 		driver.findElement(billPay).click();
 		TimeUnit.SECONDS.sleep(5);
-		AssertJUnit.assertEquals("Bill Payment Service", driver.findElement(billPayMsg).getText());
+
+		assertEquals("Bill Payment Service", driver.findElement(billPayMsg).getText());
 		if (!payeeName.equalsIgnoreCase("empty")) {
 			driver.findElement(PayeeName).sendKeys(payeeName);
 		}
@@ -242,7 +238,8 @@ public class ParaBankStepDefinitions {
 	@Then("^Verify the response msg of bill payment to (.*) of amount (.*) from (.*) account as successful$")
 	public void verifyBillPaymentMsg(String payeeName, String amount, String accountType) throws InterruptedException {
 		TimeUnit.SECONDS.sleep(10);
-		AssertJUnit.assertEquals("Bill Payment Complete", driver.findElement(billPayementMsg).getText());
+
+		assertEquals("Bill Payment Complete", driver.findElement(billPayementMsg).getText());
 		String accNumber = null;
 		if (accountType.equalsIgnoreCase("Savings")) {
 			accNumber = Savings_Account_Number;
@@ -252,7 +249,6 @@ public class ParaBankStepDefinitions {
 
 		String paymentMsg = "Bill Payment to " + payeeName + " in the amount of $" + amount + ".00 from account "
 				+ accNumber + " was successful.";
-
 		AssertJUnit.assertEquals(paymentMsg, driver.findElement(billPayementSubMsg).getText());
 	}
 
@@ -262,6 +258,7 @@ public class ParaBankStepDefinitions {
 
 		driver.findElement(accountsOverview).click();
 		TimeUnit.SECONDS.sleep(10);
+
 		int accountsOverviewTableRowsCount = driver.findElements(accountsOverviewTableRows).size();
 
 		if (accountType.equalsIgnoreCase("Savings")) {
@@ -282,38 +279,37 @@ public class ParaBankStepDefinitions {
 			}
 		}
 		TimeUnit.SECONDS.sleep(10);
-		AssertJUnit.assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
+		assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
 		if (accountType.equalsIgnoreCase("Savings")) {
-			AssertJUnit.assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
-			AssertJUnit.assertEquals("SAVINGS", driver.findElement(AccountType).getText());
+			assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
+			assertEquals("SAVINGS", driver.findElement(AccountType).getText());
 		} else if (accountType.equalsIgnoreCase("Checking")) {
-			AssertJUnit.assertEquals(Checking_Account_Number, driver.findElement(accountNumber).getText());
-			AssertJUnit.assertEquals("CHECKING", driver.findElement(AccountType).getText());
+			assertEquals(Checking_Account_Number, driver.findElement(accountNumber).getText());
+			assertEquals("CHECKING", driver.findElement(AccountType).getText());
 		}
 
 		if (transactionType.equalsIgnoreCase("transferring")) {
-			AssertJUnit.assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
-					driver.findElement(balance).getText());
-			AssertJUnit.assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
+			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00", driver.findElement(balance).getText());
+			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
 					driver.findElement(availableBalance).getText());
-			AssertJUnit.assertEquals("Bill Payment to " + payeeName,
+			assertEquals("Bill Payment to " + payeeName,
 					driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-			AssertJUnit.assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
+			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
 					driver.findElement(By.xpath(String.format(debit, 2))).getText());
 
 		} else if (transactionType.equalsIgnoreCase("receiving")) {
 			try {
 				if (!driver.findElement(balance).getText().equalsIgnoreCase("$" + (100 + amount) + ".00")) {
-					Assert.fail("Amount didn't get credited to " + payeeName);
+					fail("Amount didn't get credited to " + payeeName);
 				}
-				AssertJUnit.assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
+				assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
 						driver.findElement(availableBalance).getText());
-				AssertJUnit.assertEquals("Funds Transfer Received",
+				assertEquals("Funds Transfer Received",
 						driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-				AssertJUnit.assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
+				assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
 						driver.findElement(By.xpath(String.format(credit, 2))).getText());
 			} catch (Exception e) {
-				Assert.fail(e + "Amount didn't get credited to " + payeeName);
+				fail(e + "Amount didn't get credited to " + payeeName);
 			}
 
 		}
@@ -327,39 +323,39 @@ public class ParaBankStepDefinitions {
 
 		for (int i = 0; i < fields.size(); i++) {
 			if (fields.get(i).equalsIgnoreCase("Payee Name")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 1))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Address")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 2))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("City")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 3))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("State")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 4))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Zip Code")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 5))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Phone")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 6))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Account")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 8))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Verify Account")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 9))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Amount")) {
-				AssertJUnit.assertEquals(messages.get(i),
+				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 11))).getText());
 			}
 
 		}
 	}
 
-	@AfterMethod
-	public void quitBrowser() {
+	@After
+	public void tearDown() {
 		driver.quit();
 	}
 
