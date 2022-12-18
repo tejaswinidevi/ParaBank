@@ -45,7 +45,6 @@ Eclipse is an IDE(Integrated Development Environment) for writing and running ja
 - You can track the status of the running scenarios from the console
 - After the successful completion of your automation execution go to **test-output -> paraBankTest-Report-[currentDateTime].html**
 - Here you can see the status of the scenarios and testcases run
-- To check the visual tests go to the urls given in console
 
 
 
