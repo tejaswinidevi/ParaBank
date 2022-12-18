@@ -9,8 +9,8 @@
       <class name="com.paraBanking.TestRunner.TestRunner">
         <methods>
           <include name="setUpClass"/>
-          <include name="tearDownClass"/>
           <include name="runScenario" invocation-numbers="1"/>
+          <include name="tearDownClass"/>
         </methods>
       </class> <!-- com.paraBanking.TestRunner.TestRunner -->
     </classes>

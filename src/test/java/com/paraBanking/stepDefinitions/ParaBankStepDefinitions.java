@@ -21,6 +21,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.percy.selenium.Percy;
 import paraBanking.Constants;
 
 public class ParaBankStepDefinitions {
@@ -89,6 +90,9 @@ public class ParaBankStepDefinitions {
 	By accountsOverviewTableRows = By.xpath("//*[@id=\"accountTable\"]/tbody/tr");
 
 	String billPaymentErrorMessage = "//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[%s]/td[3]/span";
+	By billPaymentErrorMessageForAccountNumbersMismatch = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[9]/td[3]/span[3]");
+
+	private static Percy percy;
 
 	@Before
 	public void setup() {
@@ -98,7 +102,9 @@ public class ParaBankStepDefinitions {
 		logger = Logger.getLogger("paraBanking");
 		PropertyConfigurator.configure("Log4j.properties");
 
+		percy = new Percy(driver);
 		driver.get(baseUrl);
+		percy.snapshot("Home Page");
 		driver.manage().window().maximize();
 		logger.info("URL is opened");
 
@@ -212,9 +218,9 @@ public class ParaBankStepDefinitions {
 		}
 
 		if (!verifyAccount.equalsIgnoreCase("empty")) {
-			if (account.equalsIgnoreCase("Savings")) {
+			if (verifyAccount.equalsIgnoreCase("Savings")) {
 				driver.findElement(VerifyAccount).sendKeys(Savings_Account_Number);
-			} else if (account.equalsIgnoreCase("Checking")) {
+			} else if (verifyAccount.equalsIgnoreCase("Checking")) {
 				driver.findElement(VerifyAccount).sendKeys(Checking_Account_Number);
 			}
 
@@ -344,8 +350,14 @@ public class ParaBankStepDefinitions {
 				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 8))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Verify Account")) {
-				assertEquals(messages.get(i),
-						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 9))).getText());
+				if(fields.size()==1 && messages.get(i).equalsIgnoreCase("The account numbers do not match.")) {
+					assertEquals(messages.get(i),
+							driver.findElement(billPaymentErrorMessageForAccountNumbersMismatch).getText());
+				}else {
+					assertEquals(messages.get(i),
+							driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 9))).getText());
+				}
+				
 			} else if (fields.get(i).equalsIgnoreCase("Amount")) {
 				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 11))).getText());
