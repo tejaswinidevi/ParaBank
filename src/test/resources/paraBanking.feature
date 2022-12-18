@@ -19,12 +19,12 @@ Feature: Automate ParaBank Website using cucumber,selenium,testng and java
     And verify the details of the Checking Account created in Account Details page
     Then Transfer an amount of <amount> from Savings account to the Checking account for the payeeName <payeeName> address <address> city <city> state <state> zipCode <zipCode> phone <phone> account <account> verifyAccount <verifyAccount>
     Then Verify the response msg of bill payment to <payeeName> of amount <amount> from Savings account as successful
-    And Verify that balance and transaction table details of Savings account is correct after transferring amount of <amount> <from-to> <payeeName>
-    And Verify that balance and transaction table details of Checking account is correct after receiving amount of <amount> <from-to> <payeeName>
+    And Verify that balance and transaction table details of Savings account is correct after transferring amount of <amount> <from-to1> <payeeName>
+    And Verify that balance and transaction table details of Checking account is correct after receiving amount of <amount> <from-to2> <payeeName>
 
     Examples: 
-      | name | pwd  | payeeName | address                                      | city     | state     | zipCode | phone      | account  | verifyAccount | amount |
-      | john | demo | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | 9182746732 | Checking | Checking      |     50 |
+      | name | pwd  | payeeName | address                                      | city     | state     | zipCode | phone      | account  | verifyAccount | amount | from-to1 | from-to2 |
+      | john | demo | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | 9182746732 | Checking | Checking      |     50 | to       | from     |
 
   Scenario Outline: Bill Pay Form Validations
     Then Login to the ParaBank using userName <name> and password <pwd>
@@ -45,3 +45,4 @@ Feature: Automate ParaBank Website using cucumber,selenium,testng and java
       | john | demo |      4 | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | empty      | Checking | empty         | Phone-Verify Account                                                                    | Phone number is required.-Account number is required.                                                                                                                                                                 |
       | john | demo |     18 | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | 9182736211 | empty    | empty         | Account-Verify Account                                                                  | Account number is required.-Account number is required.                                                                                                                                                               |
       | john | demo | empty  | empty     | empty                                        | empty    | empty     | empty   | empty      | empty    | empty         | Payee Name-Address-City-State-Zip Code-Phone-Account-Verify Account-Amount-From account | Payee name is required.-Address is required.-	City is required.-State is required-Zip Code is required.-Phone number is required.-Account number is required.-Account number is required.-The amount cannot be empty. |
+      | john | demo |     40 | Riya      | Flat 27, SunnyVale Apartments, EastTree Road | Banglore | Karnataka |  600023 | 9182736211 | Checking | Savings       | Verify Account                                                                          | The account numbers do not match.                                                                                                                                                                                     |
