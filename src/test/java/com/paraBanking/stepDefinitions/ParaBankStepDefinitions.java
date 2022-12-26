@@ -5,15 +5,22 @@ import org.testng.AssertJUnit;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -70,6 +77,7 @@ public class ParaBankStepDefinitions {
 	By AccountType = By.xpath("//*[@id=\"accountType\"]");
 	By balance = By.xpath("//*[@id=\"balance\"]");
 	By availableBalance = By.xpath("//*[@id=\"availableBalance\"]");
+	String date = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[1]";
 	String transactionMsg = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[2]/a";
 	String credit = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[4]";
 	String debit = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[3]";
@@ -216,9 +224,17 @@ public class ParaBankStepDefinitions {
 		}
 		assertEquals("$" + minBalance + ".00", driver.findElement(balance).getText());
 		assertEquals("$" + minBalance + ".00", driver.findElement(availableBalance).getText());
+
+		String pattern = "MM-dd-yyyy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		String Date = simpleDateFormat.format(new Date());
+
+		assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
 		assertEquals("Funds Transfer Received",
 				driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
 		assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
+		assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
 	}
 
 	@Then("^Transfer an amount of (.*) from (.*) account to the (.*) account for the payeeName (.*) address (.*) city (.*) state (.*) zipCode (.*) phone (.*) account (.*) verifyAccount (.*)$")
@@ -370,10 +386,25 @@ public class ParaBankStepDefinitions {
 			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00", driver.findElement(balance).getText());
 			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00",
 					driver.findElement(availableBalance).getText());
+			
+			String pattern = "MM-dd-yyyy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String Date = simpleDateFormat.format(new Date());
+
+			assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
+			assertEquals("Funds Transfer Received",
+					driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
+			assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
+			assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
+
+			
+			assertEquals(Date, driver.findElement(By.xpath(String.format(date, 2))).getText());
 			assertEquals("Bill Payment to " + payeeName,
 					driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
 			assertEquals("$" + (Integer.parseInt(amount)) + ".00",
 					driver.findElement(By.xpath(String.format(debit, 2))).getText());
+			assertEquals("", driver.findElement(By.xpath(String.format(credit, 2))).getText());
 
 		} else if (transactionType.equalsIgnoreCase("receiving")) {
 			try {
@@ -382,8 +413,22 @@ public class ParaBankStepDefinitions {
 				}
 				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
 						driver.findElement(availableBalance).getText());
+				
+				String pattern = "MM-dd-yyyy";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+				String Date = simpleDateFormat.format(new Date());
+
+				assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
+				assertEquals("Funds Transfer Received",
+						driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
+				assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
+				assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
+
+				assertEquals(Date, driver.findElement(By.xpath(String.format(date, 2))).getText());
 				assertEquals("Funds Transfer Received",
 						driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
+				assertEquals("", driver.findElement(By.xpath(String.format(debit, 2))).getText());
 				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
 						driver.findElement(By.xpath(String.format(credit, 2))).getText());
 			} catch (Exception e) {
