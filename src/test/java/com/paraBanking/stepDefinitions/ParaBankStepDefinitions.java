@@ -3,8 +3,8 @@ package com.paraBanking.stepDefinitions;
 import org.testng.AssertJUnit;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -230,11 +230,16 @@ public class ParaBankStepDefinitions {
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		String Date = simpleDateFormat.format(new Date());
 
-		assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
-		assertEquals("Funds Transfer Received",
-				driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
-		assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
-		assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
+		String expected1stRow[] = new String[] { Date, "Funds Transfer Received", "$" + minBalance + ".00", "" };
+		List<String> list1 = Arrays.asList(expected1stRow);
+
+		String actual1stRow[] = new String[] { driver.findElement(By.xpath(String.format(date, 1))).getText(),
+				driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText(),
+				driver.findElement(By.xpath(String.format(credit, 1))).getText(),
+				driver.findElement(By.xpath(String.format(debit, 1))).getText() };
+		List<String> list2 = Arrays.asList(actual1stRow);
+
+		assertTrue(list1.equals(list2));
 	}
 
 	@Then("^Transfer an amount of (.*) from (.*) account to the (.*) account for the payeeName (.*) address (.*) city (.*) state (.*) zipCode (.*) phone (.*) account (.*) verifyAccount (.*)$")
@@ -386,25 +391,34 @@ public class ParaBankStepDefinitions {
 			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00", driver.findElement(balance).getText());
 			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00",
 					driver.findElement(availableBalance).getText());
-			
+
 			String pattern = "MM-dd-yyyy";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 			String Date = simpleDateFormat.format(new Date());
 
-			assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
-			assertEquals("Funds Transfer Received",
-					driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
-			assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
-			assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
+			String expected1stRow[] = new String[] { Date, "Funds Transfer Received", "$" + minBalance + ".00", "" };
+			List<String> list1 = Arrays.asList(expected1stRow);
 
-			
-			assertEquals(Date, driver.findElement(By.xpath(String.format(date, 2))).getText());
-			assertEquals("Bill Payment to " + payeeName,
-					driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-			assertEquals("$" + (Integer.parseInt(amount)) + ".00",
-					driver.findElement(By.xpath(String.format(debit, 2))).getText());
-			assertEquals("", driver.findElement(By.xpath(String.format(credit, 2))).getText());
+			String actual1stRow[] = new String[] { driver.findElement(By.xpath(String.format(date, 1))).getText(),
+					driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText(),
+					driver.findElement(By.xpath(String.format(credit, 1))).getText(),
+					driver.findElement(By.xpath(String.format(debit, 1))).getText() };
+			List<String> list2 = Arrays.asList(actual1stRow);
+
+			assertTrue(list1.equals(list2));
+
+			String expected2ndRow[] = new String[] { Date, "Bill Payment to " + payeeName, "",
+					"$" + (Integer.parseInt(amount)) + ".00" };
+			List<String> list3 = Arrays.asList(expected2ndRow);
+
+			String actual2ndRow[] = new String[] { driver.findElement(By.xpath(String.format(date, 2))).getText(),
+					driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText(),
+					driver.findElement(By.xpath(String.format(credit, 2))).getText(),
+					driver.findElement(By.xpath(String.format(debit, 2))).getText() };
+			List<String> list4 = Arrays.asList(actual2ndRow);
+
+			assertTrue(list3.equals(list4));
 
 		} else if (transactionType.equalsIgnoreCase("receiving")) {
 			try {
@@ -413,24 +427,36 @@ public class ParaBankStepDefinitions {
 				}
 				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
 						driver.findElement(availableBalance).getText());
-				
+
 				String pattern = "MM-dd-yyyy";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				String Date = simpleDateFormat.format(new Date());
 
-				assertEquals(Date, driver.findElement(By.xpath(String.format(date, 1))).getText());
-				assertEquals("Funds Transfer Received",
-						driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
-				assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
-				assertEquals("", driver.findElement(By.xpath(String.format(debit, 1))).getText());
+				String expected1stRow[] = new String[] { Date, "Funds Transfer Received", "$" + minBalance + ".00",
+						"" };
+				List<String> list1 = Arrays.asList(expected1stRow);
 
-				assertEquals(Date, driver.findElement(By.xpath(String.format(date, 2))).getText());
-				assertEquals("Funds Transfer Received",
-						driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-				assertEquals("", driver.findElement(By.xpath(String.format(debit, 2))).getText());
-				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
-						driver.findElement(By.xpath(String.format(credit, 2))).getText());
+				String actual1stRow[] = new String[] { driver.findElement(By.xpath(String.format(date, 1))).getText(),
+						driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText(),
+						driver.findElement(By.xpath(String.format(credit, 1))).getText(),
+						driver.findElement(By.xpath(String.format(debit, 1))).getText() };
+				List<String> list2 = Arrays.asList(actual1stRow);
+
+				assertTrue(list1.equals(list2));
+
+				String expected2ndRow[] = new String[] { Date, "Funds Transfer Received",
+						"$" + (minBalance + Integer.parseInt(amount)) + ".00", "" };
+				List<String> list3 = Arrays.asList(expected2ndRow);
+
+				String actual2ndRow[] = new String[] { driver.findElement(By.xpath(String.format(date, 2))).getText(),
+						driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText(),
+						driver.findElement(By.xpath(String.format(credit, 2))).getText(),
+						driver.findElement(By.xpath(String.format(debit, 2))).getText() };
+				List<String> list4 = Arrays.asList(actual2ndRow);
+
+				assertTrue(list3.equals(list4));
+
 			} catch (Exception e) {
 				fail(e + "Amount didn't get credited to " + payeeName);
 			}
