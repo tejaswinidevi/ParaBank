@@ -75,7 +75,6 @@ public class ParaBankStepDefinitions {
 	String debit = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[3]";
 
 	By billPay = By.xpath("//a[text()=\"Bill Pay\"]");
-	By billPayMsg = By.xpath("//h1[text()=\"Bill Payment Service\"]");
 	By PayeeName = By.xpath("//input[@name=\"payee.name\"]");
 	By Address = By.xpath("//input[@name=\"payee.address.street\"]");
 	By City = By.xpath("//input[@name=\"payee.address.city\"]");
@@ -87,7 +86,6 @@ public class ParaBankStepDefinitions {
 	By Amount = By.xpath("//input[@name=\"amount\"]");
 	By submitPayment = By.xpath("//input[@value=\"Send Payment\"]");
 
-	By billPayementMsg = By.xpath("//h1[contains(text(),\"Bill Payment Complete\")]");
 	By billPayementSubMsg = By.xpath("//p[contains(text(),\"Bill Payment to\")]");
 
 	By accountsOverview = By.xpath("//a[text()=\"Accounts Overview\"]");
@@ -199,7 +197,7 @@ public class ParaBankStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
 		wait.until(ExpectedConditions.elementToBeClickable(newAccountId));
 		driver.findElement(newAccountId).click();
-		
+
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
 		if (accountType.equalsIgnoreCase("Checking")) {
 			wait.until(ExpectedConditions.textToBePresentInElement(
