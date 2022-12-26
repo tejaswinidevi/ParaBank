@@ -196,20 +196,17 @@ public class ParaBankStepDefinitions {
 
 	@And("^verify the details of the (.*) Account created in Account Details page$")
 	public void verifyAccountDetailsPage(String accountType) throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
 		wait.until(ExpectedConditions.elementToBeClickable(newAccountId));
 		driver.findElement(newAccountId).click();
-
+		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
 		if (accountType.equalsIgnoreCase("Checking")) {
-			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
 			wait.until(ExpectedConditions.textToBePresentInElement(
 					driver.findElement(By.xpath("//*[@id=\"accountId\"]")), Checking_Account_Number));
-
 		} else if (accountType.equalsIgnoreCase("Savings")) {
-			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
 			wait.until(ExpectedConditions.textToBePresentInElement(
 					driver.findElement(By.xpath("//*[@id=\"accountId\"]")), Savings_Account_Number));
-
 		}
 
 		AssertJUnit.assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
