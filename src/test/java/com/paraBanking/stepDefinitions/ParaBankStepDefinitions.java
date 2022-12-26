@@ -5,17 +5,26 @@ import org.testng.AssertJUnit;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
+
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -27,40 +36,36 @@ import paraBanking.Constants;
 public class ParaBankStepDefinitions {
 
 	public String baseUrl = Constants.BASE_URL;
-	public String userName = Constants.USER_NAME;
-	public String password = Constants.PASSWORD;
 	public static WebDriver driver;
 	public static Logger logger;
 
 	public static String Checking_Account_Number = null;
 	public static String Savings_Account_Number = null;
 
-	By adminPage = By.xpath("//*[@id=\"headerPanel\"]/ul[1]/li[6]/a");
-	By adminPageTitle = By.xpath("//*[@id=\"rightPanel\"]/h1");
-	By cleanButton = By.xpath("//*[@id=\"rightPanel\"]/table/tbody/tr/td[1]/form/table/tbody/tr/td[2]/button");
-	By initializeButton = By.xpath("//*[@id=\"rightPanel\"]/table/tbody/tr/td[1]/form/table/tbody/tr/td[1]/button");
+	By adminPage = By.xpath("//a[text()=\"Admin Page\"]");
+	By adminPageTitle = By.xpath("//h1[contains(@class,\"title\")]");
+	By cleanButton = By.xpath("//button[@value=\"CLEAN\"]");
+	By initializeButton = By.xpath("//button[@value=\"INIT\"]");
 	By statusMsg = By.xpath("//*[@id=\"rightPanel\"]/p/b");
 	By jsonDataAccessMode = By.xpath("//*[@id=\"accessMode3\"]");
 	By soapEndPoint = By.xpath("//*[@id=\"soapEndpoint\"]");
 	By restEndPoint = By.xpath("//*[@id=\"restEndpoint\"]");
 	By endPoint = By.xpath("//*[@id=\"endpoint\"]");
-	By submit = By.xpath("//*[@id=\"adminForm\"]/input");
-	By loginUserName = By.xpath("//*[@id=\"loginPanel\"]/form/div[1]/input");
-	By loginPassword = By.xpath("//*[@id=\"loginPanel\"]/form/div[2]/input");
-	By logInButton = By.xpath("//*[@id=\"loginPanel\"]/form/div[3]/input");
+	By submit = By.xpath("//input[@value=\"Submit\"]");
+	By loginUserName = By.xpath("//input[contains(@name,\"username\")]");
+	By loginPassword = By.xpath("//input[contains(@name,\"password\")]");
+	By logInButton = By.xpath("//input[contains(@value,\"Log In\")]");
 
-	By openNewAccount = By.xpath("//*[@id=\"leftPanel\"]/ul/li[1]/a");
-	By openNewAccountMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div/h1");
-	By checkingAccount = By.xpath("//*[@id=\"type\"]/option[1]");
-	By savingsAccount = By.xpath("//*[@id=\"type\"]/option[2]");
+	By openNewAccount = By.xpath("//a[text()=\"Open New Account\"]");
+	By openNewAccountMsg = By.xpath("//h1[text()=\"Open New Account\"]");
+	By checkingAccount = By.xpath("//option[text()=\"CHECKING\"]");
+	By savingsAccount = By.xpath("//option[text()=\"SAVINGS\"]");
 
-	By selectAccountNumber = By.xpath("//*[@id=\"fromAccountId\"]/option[2]");
-	By openNewAccountButton = By.xpath("//*[@id=\"rightPanel\"]/div/div/form/div/input");
-	By accountOpenedMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div/h1");
-	By accountOpenedSubMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div/p[1]");
+	By openNewAccountButton = By.xpath("//input[@value=\"Open New Account\"]");
 	By newAccountId = By.xpath("//*[@id=\"newAccountId\"]");
 
-	By accountDetailsTitle = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/h1");
+	By accountDetailsTitle = By.xpath("//h1[text()=\"Account Details\"]");
+	By minimumBalanceToOpenAccount = By.xpath("//b[contains(text(),\"A minimum\")]");
 	By accountNumber = By.xpath("//*[@id=\"accountId\"]");
 	By AccountType = By.xpath("//*[@id=\"accountType\"]");
 	By balance = By.xpath("//*[@id=\"balance\"]");
@@ -69,33 +74,35 @@ public class ParaBankStepDefinitions {
 	String credit = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[4]";
 	String debit = "//*[@id=\"transactionTable\"]/tbody/tr[%s]/td[3]";
 
-	By billPay = By.xpath("//*[@id=\"leftPanel\"]/ul/li[4]/a");
-	By billPayMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/h1");
-	By PayeeName = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[1]/td[2]/input");
-	By Address = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[2]/td[2]/input");
-	By City = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[3]/td[2]/input");
-	By State = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[4]/td[2]/input");
-	By ZipCode = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[5]/td[2]/input");
-	By Phone = By.name("payee.phoneNumber");
-	By Account = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[8]/td[2]/input");
-	By VerifyAccount = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[9]/td[2]/input");
-	By Amount = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[11]/td[2]/input");
-	By submitPayment = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[14]/td[2]/input");
+	By billPay = By.xpath("//a[text()=\"Bill Pay\"]");
+	By billPayMsg = By.xpath("//h1[text()=\"Bill Payment Service\"]");
+	By PayeeName = By.xpath("//input[@name=\"payee.name\"]");
+	By Address = By.xpath("//input[@name=\"payee.address.street\"]");
+	By City = By.xpath("//input[@name=\"payee.address.city\"]");
+	By State = By.xpath("//input[@name=\"payee.address.state\"]");
+	By ZipCode = By.xpath("//input[@name=\"payee.address.zipCode\"]");
+	By Phone = By.xpath("//input[@name=\"payee.phoneNumber\"]");
+	By Account = By.xpath("//input[@name=\"payee.accountNumber\"]");
+	By VerifyAccount = By.xpath("//input[@name=\"verifyAccount\"]");
+	By Amount = By.xpath("//input[@name=\"amount\"]");
+	By submitPayment = By.xpath("//input[@value=\"Send Payment\"]");
 
-	By billPayementMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div[2]/h1");
-	By billPayementSubMsg = By.xpath("//*[@id=\"rightPanel\"]/div/div[2]/p[1]");
+	By billPayementMsg = By.xpath("//h1[contains(text(),\"Bill Payment Complete\")]");
+	By billPayementSubMsg = By.xpath("//p[contains(text(),\"Bill Payment to\")]");
 
-	By accountsOverview = By.xpath("//*[@id=\"leftPanel\"]/ul/li[2]/a");
+	By accountsOverview = By.xpath("//a[text()=\"Accounts Overview\"]");
 	String accountIDs = "//*[@id=\"accountTable\"]/tbody/tr[%s]/td[1]/a";
 	By accountsOverviewTableRows = By.xpath("//*[@id=\"accountTable\"]/tbody/tr");
 
 	String billPaymentErrorMessage = "//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[%s]/td[3]/span";
-	By billPaymentErrorMessageForAccountNumbersMismatch = By.xpath("//*[@id=\"rightPanel\"]/div/div[1]/form/table/tbody/tr[9]/td[3]/span[3]");
+	By billPaymentErrorMessageForAccountNumbersMismatch = By
+			.xpath("//span[@ng-show=\"validationModel.verifyAccount == 'mismatch'\"]");
 
 	private static Percy percy;
+	int minBalance = 0;
 
 	@Before
-	public void setup() {
+	public void setup() throws InterruptedException {
 
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/Drivers/chromedriver");
 		driver = new ChromeDriver();
@@ -108,13 +115,25 @@ public class ParaBankStepDefinitions {
 		driver.manage().window().maximize();
 		logger.info("URL is opened");
 
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()=\"Admin Page\"]")));
+
 		driver.findElement(adminPage).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@class=\"title\"]")));
+
 		AssertJUnit.assertEquals("Administration", driver.findElement(adminPageTitle).getText());
 
 		driver.findElement(cleanButton).click();
+		WebElement dataBaseCleaned = driver.findElement(By.xpath("//b[text()=\"Database Cleaned\"]"));
+		wait.until(ExpectedConditions.textToBePresentInElement(dataBaseCleaned, "Database Cleaned"));
+
 		AssertJUnit.assertEquals("Database Cleaned", driver.findElement(statusMsg).getText());
 
 		driver.findElement(initializeButton).click();
+		wait(driver, By.xpath("//b[text()=\"Database Initialized\"]"));
+		WebElement dataBaseInitialized = driver.findElement(By.xpath("//b[text()=\"Database Initialized\"]"));
+		wait.until(ExpectedConditions.textToBePresentInElement(dataBaseInitialized, "Database Initialized"));
+
 		AssertJUnit.assertEquals("Database Initialized", driver.findElement(statusMsg).getText());
 
 		driver.findElement(jsonDataAccessMode).click();
@@ -140,7 +159,14 @@ public class ParaBankStepDefinitions {
 	public void openAccount(String accountType) throws InterruptedException {
 		driver.findElement(openNewAccount).click();
 
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		WebElement openNewAccount = driver.findElement(By.xpath("//h1[text()=\"Open New Account\"]"));
+		wait.until(ExpectedConditions.textToBePresentInElement(openNewAccount, "Open New Account"));
+
 		AssertJUnit.assertEquals("Open New Account", driver.findElement(openNewAccountMsg).getText());
+		minBalance = Integer
+				.parseInt(driver.findElement(minimumBalanceToOpenAccount).getText().split("\\$")[1].split("\\.")[0]
+						.replace(",", ""));
 
 		if (accountType.equalsIgnoreCase("Checking")) {
 			driver.findElement(checkingAccount).click();
@@ -149,8 +175,17 @@ public class ParaBankStepDefinitions {
 		}
 
 		TimeUnit.SECONDS.sleep(5);
+		wait.until(ExpectedConditions.elementToBeClickable(openNewAccountButton));
 		driver.findElement(openNewAccountButton).click();
-		TimeUnit.SECONDS.sleep(10);
+
+		Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(120))
+				.pollingEvery(Duration.ofSeconds(5)).ignoring(NoSuchElementException.class);
+
+		fluentWait.until(driver -> {
+			return driver.findElement(By.xpath("//h1[text()=\"Account Opened!\"]"));
+		});
+		WebElement accountOpened = driver.findElement(By.xpath("//h1[text()=\"Account Opened!\"]"));
+		wait.until(ExpectedConditions.textToBePresentInElement(accountOpened, "Account Opened!"));
 
 		if (accountType.equalsIgnoreCase("Checking")) {
 			Checking_Account_Number = driver.findElement(newAccountId).getText();
@@ -161,20 +196,34 @@ public class ParaBankStepDefinitions {
 
 	@And("^verify the details of the (.*) Account created in Account Details page$")
 	public void verifyAccountDetailsPage(String accountType) throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+		wait.until(ExpectedConditions.elementToBeClickable(newAccountId));
 		driver.findElement(newAccountId).click();
-		TimeUnit.SECONDS.sleep(10);
+
+		if (accountType.equalsIgnoreCase("Checking")) {
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
+			wait.until(ExpectedConditions.textToBePresentInElement(
+					driver.findElement(By.xpath("//*[@id=\"accountId\"]")), Checking_Account_Number));
+
+		} else if (accountType.equalsIgnoreCase("Savings")) {
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"accountId\"]")));
+			wait.until(ExpectedConditions.textToBePresentInElement(
+					driver.findElement(By.xpath("//*[@id=\"accountId\"]")), Savings_Account_Number));
+
+		}
 
 		AssertJUnit.assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
+
 		if (accountType.equalsIgnoreCase("Checking")) {
 			assertEquals(Checking_Account_Number, driver.findElement(accountNumber).getText());
 		} else if (accountType.equalsIgnoreCase("Savings")) {
 			assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
 		}
-		assertEquals("$100.00", driver.findElement(balance).getText());
-		assertEquals("$100.00", driver.findElement(availableBalance).getText());
+		assertEquals("$" + minBalance + ".00", driver.findElement(balance).getText());
+		assertEquals("$" + minBalance + ".00", driver.findElement(availableBalance).getText());
 		assertEquals("Funds Transfer Received",
 				driver.findElement(By.xpath(String.format(transactionMsg, 1))).getText());
-		assertEquals("$100.00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
+		assertEquals("$" + minBalance + ".00", driver.findElement(By.xpath(String.format(credit, 1))).getText());
 	}
 
 	@Then("^Transfer an amount of (.*) from (.*) account to the (.*) account for the payeeName (.*) address (.*) city (.*) state (.*) zipCode (.*) phone (.*) account (.*) verifyAccount (.*)$")
@@ -182,9 +231,14 @@ public class ParaBankStepDefinitions {
 			String city, String state, String zipCode, String phone, String account, String verifyAccount)
 			throws InterruptedException {
 		driver.findElement(billPay).click();
-		TimeUnit.SECONDS.sleep(5);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()=\"Bill Payment Service\"]")));
 
-		assertEquals("Bill Payment Service", driver.findElement(billPayMsg).getText());
+		WebElement billPaymentService = driver.findElement(By.xpath("//h1[text()=\"Bill Payment Service\"]"));
+
+		wait.until(ExpectedConditions.textToBePresentInElement(billPaymentService, "Bill Payment Service"));
+
+		assertEquals("Bill Payment Service", wait(driver, By.xpath("//h1[text()=\"Bill Payment Service\"]")).getText());
 		if (!payeeName.equalsIgnoreCase("empty")) {
 			driver.findElement(PayeeName).sendKeys(payeeName);
 		}
@@ -243,9 +297,13 @@ public class ParaBankStepDefinitions {
 
 	@Then("^Verify the response msg of bill payment to (.*) of amount (.*) from (.*) account as successful$")
 	public void verifyBillPaymentMsg(String payeeName, String amount, String accountType) throws InterruptedException {
-		TimeUnit.SECONDS.sleep(10);
 
-		assertEquals("Bill Payment Complete", driver.findElement(billPayementMsg).getText());
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		WebElement billPaymentComplete = driver.findElement(By.xpath("//h1[text()=\"Bill Payment Complete\"]"));
+
+		wait.until(ExpectedConditions.textToBePresentInElement(billPaymentComplete, "Bill Payment Complete"));
+
+		assertEquals("Bill Payment Complete", billPaymentComplete.getText());
 		String accNumber = null;
 		if (accountType.equalsIgnoreCase("Savings")) {
 			accNumber = Savings_Account_Number;
@@ -263,8 +321,12 @@ public class ParaBankStepDefinitions {
 			String from_to, String payeeName) throws InterruptedException {
 
 		driver.findElement(accountsOverview).click();
-		TimeUnit.SECONDS.sleep(10);
 
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+		WebElement accountsOverview = driver.findElement(By.xpath("//h1[text()=\"Accounts Overview\"]"));
+
+		wait.until(ExpectedConditions.textToBePresentInElement(accountsOverview, "Accounts Overview"));
+		TimeUnit.SECONDS.sleep(10);
 		int accountsOverviewTableRowsCount = driver.findElements(accountsOverviewTableRows).size();
 
 		if (accountType.equalsIgnoreCase("Savings")) {
@@ -284,7 +346,22 @@ public class ParaBankStepDefinitions {
 				}
 			}
 		}
-		TimeUnit.SECONDS.sleep(10);
+
+		Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(90))
+				.pollingEvery(Duration.ofSeconds(5)).ignoring(NoSuchElementException.class);
+
+		fluentWait.until(driver -> {
+			return driver.findElement(By.xpath("//*[@id=\"accountId\"]"));
+		});
+
+		WebElement accountId = driver.findElement(By.xpath("//*[@id=\"accountId\"]"));
+
+		if (accountType.equalsIgnoreCase("Checking")) {
+			wait.until(ExpectedConditions.textToBePresentInElement(accountId, Checking_Account_Number));
+		} else if (accountType.equalsIgnoreCase("Savings")) {
+			wait.until(ExpectedConditions.textToBePresentInElement(accountId, Savings_Account_Number));
+		}
+
 		assertEquals("Account Details", driver.findElement(accountDetailsTitle).getText());
 		if (accountType.equalsIgnoreCase("Savings")) {
 			assertEquals(Savings_Account_Number, driver.findElement(accountNumber).getText());
@@ -295,24 +372,24 @@ public class ParaBankStepDefinitions {
 		}
 
 		if (transactionType.equalsIgnoreCase("transferring")) {
-			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00", driver.findElement(balance).getText());
-			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
+			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00", driver.findElement(balance).getText());
+			assertEquals("$" + (minBalance - Integer.parseInt(amount)) + ".00",
 					driver.findElement(availableBalance).getText());
 			assertEquals("Bill Payment to " + payeeName,
 					driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-			assertEquals("$" + (100 - Integer.parseInt(amount)) + ".00",
+			assertEquals("$" + (Integer.parseInt(amount)) + ".00",
 					driver.findElement(By.xpath(String.format(debit, 2))).getText());
 
 		} else if (transactionType.equalsIgnoreCase("receiving")) {
 			try {
-				if (!driver.findElement(balance).getText().equalsIgnoreCase("$" + (100 + amount) + ".00")) {
+				if (!driver.findElement(balance).getText().equalsIgnoreCase("$" + (minBalance + amount) + ".00")) {
 					fail("Amount didn't get credited to " + payeeName);
 				}
-				assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
+				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
 						driver.findElement(availableBalance).getText());
 				assertEquals("Funds Transfer Received",
 						driver.findElement(By.xpath(String.format(transactionMsg, 2))).getText());
-				assertEquals("$" + (100 + Integer.parseInt(amount)) + ".00",
+				assertEquals("$" + (minBalance + Integer.parseInt(amount)) + ".00",
 						driver.findElement(By.xpath(String.format(credit, 2))).getText());
 			} catch (Exception e) {
 				fail(e + "Amount didn't get credited to " + payeeName);
@@ -350,14 +427,14 @@ public class ParaBankStepDefinitions {
 				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 8))).getText());
 			} else if (fields.get(i).equalsIgnoreCase("Verify Account")) {
-				if(fields.size()==1 && messages.get(i).equalsIgnoreCase("The account numbers do not match.")) {
+				if (fields.size() == 1 && messages.get(i).equalsIgnoreCase("The account numbers do not match.")) {
 					assertEquals(messages.get(i),
 							driver.findElement(billPaymentErrorMessageForAccountNumbersMismatch).getText());
-				}else {
+				} else {
 					assertEquals(messages.get(i),
 							driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 9))).getText());
 				}
-				
+
 			} else if (fields.get(i).equalsIgnoreCase("Amount")) {
 				assertEquals(messages.get(i),
 						driver.findElement(By.xpath(String.format(billPaymentErrorMessage, 11))).getText());
@@ -369,6 +446,17 @@ public class ParaBankStepDefinitions {
 	@After
 	public void tearDown() {
 		driver.quit();
+	}
+
+	WebElement wait(WebDriver driver, By elementIdentifier) {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(60))
+				.pollingEvery(Duration.ofSeconds(5)).ignoring(NoSuchElementException.class);
+
+		return wait.until(new Function<WebDriver, WebElement>() {
+			public WebElement apply(WebDriver driver) {
+				return driver.findElement(elementIdentifier);
+			}
+		});
 	}
 
 }
